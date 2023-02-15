@@ -29,7 +29,7 @@ using namespace c2ffi;
 
 namespace c2ffi {
     class JSONOutputDriver : public OutputDriver {
-        void write_object(const char *type, bool open, bool close, ...) {
+        void write_object(const char *type, bool open, int close, ...) {
             va_list ap;
             char *ptr = NULL;
 

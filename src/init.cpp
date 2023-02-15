@@ -199,7 +199,7 @@ void c2ffi::init_ci(config &c, clang::CompilerInstance &ci) {
         lo.WCharSize = c.wchar_size;
 
     std::vector<std::string> includes;
-    ci.getInvocation().setLangDefaults(lo, c.kind, pti->getTriple(), includes, c.std);
+    ci.getLangOpts().setLangDefaults(lo, c.kind.getLanguage(), pti->getTriple(), includes, c.std);
     ci.createFileManager();
     ci.createSourceManager(ci.getFileManager());
 

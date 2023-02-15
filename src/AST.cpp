@@ -221,7 +221,7 @@ Decl* C2FFIASTConsumer::make_decl(const clang::FunctionDecl* d, bool is_toplevel
     return fd;
 }
 
-static bool convertUTF32ToUTF8String(const llvm::ArrayRef<char> &Source, std::string &Result) {
+static bool convert_UTF32ToUTF8String(const llvm::ArrayRef<char> &Source, std::string &Result) {
     const char*  SourceBegins = Source.data();
     const size_t SourceLength = Source.size();
     const char*  SourceEnding = SourceBegins + SourceLength;
@@ -274,14 +274,14 @@ Decl* C2FFIASTConsumer::make_decl(const clang::VarDecl* d, bool is_toplevel)
                         {
                             is_string = true;
 
-                            if(s->isAscii() || s->isUTF8()) {
+                            if(s->isOrdinary() || s->isUTF8()) {
                                 value = s->getString();
                             } else if(s->getCharByteWidth() == 2) {
                                 llvm::StringRef bytes = s->getBytes();
                                 llvm::convertUTF16ToUTF8String(llvm::ArrayRef<char>(bytes.data(), bytes.size()), value);
                             } else if(s->getCharByteWidth() == 4) {
                                 llvm::StringRef bytes = s->getBytes();
-                                convertUTF32ToUTF8String(llvm::ArrayRef<char>(bytes.data(), bytes.size()), value);
+                                convert_UTF32ToUTF8String(llvm::ArrayRef<char>(bytes.data(), bytes.size()), value);
                             } else {
                             }
                         }
